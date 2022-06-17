@@ -1,5 +1,8 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
 	Box,
+	Button,
 	Paper,
 	RingProgress as QuizNum,
 	Radio,
@@ -11,9 +14,12 @@ import {
 export const QuestionBox = ({
 	question,
 	options,
+	submitAnswer,
 	totalQuestionsCount = 0,
 	currentQuestionCount = 0,
 }) => {
+	const [currentAnswer, setCurrentAnswer] = useState("");
+
 	const stackStyleProps = {
 		pt: "70px",
 		p: "lg",
@@ -62,13 +68,34 @@ export const QuestionBox = ({
 						}
 					/>
 				</Paper>
-				<OptionList question={question} options={options} />
+				<OptionList
+					currentAnswer={currentAnswer}
+					setCurrentAnswer={setCurrentAnswer}
+					question={question}
+					options={options}
+				/>
+				{totalQuestionsCount !== currentQuestionCount ? (
+					<Button
+						onClick={() => submitAnswer(currentAnswer)}
+						styles={{
+							inner: { justifyContent: "space-between" },
+						}}
+						leftIcon=" "
+						rightIcon="&#10141;"
+						size="lg">
+						Next
+					</Button>
+				) : (
+					<Button component={Link} to="/report" size="lg">
+						Results
+					</Button>
+				)}
 			</Stack>
 		</Box>
 	);
 };
 
-const OptionList = ({ question, options }) => {
+const OptionList = ({ question, options, currentAnswer, setCurrentAnswer }) => {
 	const radioGroupProps = {
 		sx: {
 			width: "100%",
@@ -87,6 +114,7 @@ const OptionList = ({ question, options }) => {
 			"& label": {
 				width: "100%",
 				marginLeft: "1rem",
+				cursor: "pointer",
 			},
 		}),
 	};
@@ -94,6 +122,8 @@ const OptionList = ({ question, options }) => {
 	return (
 		<RadioGroup
 			{...radioGroupProps}
+			value={currentAnswer}
+			onChange={setCurrentAnswer}
 			label={
 				<Text weight={700} size="xl" mb="sm">
 					{question}
