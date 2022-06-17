@@ -28,7 +28,6 @@ export const Question = () => {
 		if (!!answer) {
 			data[currentQue].options.forEach(async (option) => {
 				if (option.text === answer && option.isRight) {
-					console.log("+1");
 					await axios.put(
 						"https://62aa4505371180affbd2bdcd.mockapi.io/user/1",
 						{ ...userData, points: currPoints + 1 }
