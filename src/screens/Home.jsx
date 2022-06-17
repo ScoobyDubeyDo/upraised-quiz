@@ -25,7 +25,7 @@ export const Home = () => {
 			align="center"
 			justify="space-between">
 			<Text sx={{ fontSize: "25px" }} weight="bolder">
-				Avangers
+				Avengers
 			</Text>
 			<Center
 				component={Paper}
